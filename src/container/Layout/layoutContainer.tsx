@@ -1,5 +1,8 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 import styled from 'styled-components'
+import {LayoutHeaderContainer} from './layoutHeader'
+import './style.scss'
 // import { Loading } from "../../components";
 // import { DashBoardNavigation, IsAuth } from "../index";
 // import { connect } from "react-redux";
@@ -26,8 +29,13 @@ const LayoutContainer = styled.div<{
           <LayoutContainer
             fontSize={containerStyle.fontSize}
             backgroundColor={containerStyle.backgroundColor}
+            className='LayoutContainer'
           >
-            
+            <LayoutHeaderContainer>
+              <NavLink to="/home" activeClassName="selected">Home</NavLink>
+              <NavLink to="/cart" activeClassName="selected">Cart</NavLink>
+              <NavLink to="/products" activeClassName="selected">Products</NavLink>
+            </LayoutHeaderContainer>
             {/* <IsAuth />
             <DashBoardNavigation /> */}
             {/* <Loading isLoading={isLoading} /> */}

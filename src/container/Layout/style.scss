@@ -1,0 +1,13 @@
+.LayoutContainer {
+  .selected {
+    font-weight: 500;
+  }
+  .LayoutHeader {
+    a {
+      cursor: pointer;
+      &:hover {
+        font-weight: 500;
+      }
+    }
+  }
+}
