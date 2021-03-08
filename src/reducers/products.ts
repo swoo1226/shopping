@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {call, put, takeLatest} from 'redux-saga/effects'
-
+import {productItems, coupons} from './productItems'
 
 export type productType = {
     id: string
@@ -11,12 +11,23 @@ export type productType = {
     availableCoupon?: boolean
 }
 
+type couponType = {
+    type: string
+    title: string
+    discountRate?: number
+    discountAmount?: number
+}
+
 type productsSliceType = {
-    list: productType[] | null
+    productItems: productType[]
+    coupons: couponType[]
+    itemsRow: number
 }
 
 export const productsInitialState: productsSliceType = {
-    list: null
+    productItems: productItems,
+    coupons: coupons,
+    itemsRow: 1
 }
 
 export const productsSlice = createSlice({
@@ -24,10 +35,14 @@ export const productsSlice = createSlice({
     initialState: productsInitialState,
     reducers: {
         addProductsToList(state, action){
-            if(!state.list){
-                state.list = []
+            if(!state.productItems){
+                state.productItems = []
             }
-        } 
+        } ,
+        increaseItemsRow(state, action){
+            console.log(`curr itemsRow is ${state.itemsRow}`)
+            state.itemsRow += 1
+        }
     }
 })
 
