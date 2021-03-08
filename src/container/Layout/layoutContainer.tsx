@@ -39,7 +39,7 @@ const LayoutContainer = styled.div<{
             {/* <IsAuth />
             <DashBoardNavigation /> */}
             {/* <Loading isLoading={isLoading} /> */}
-            <div>{children}</div>
+            <div className='contents'>{children}</div>
           </LayoutContainer>
         );
     }

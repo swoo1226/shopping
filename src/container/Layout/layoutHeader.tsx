@@ -13,6 +13,7 @@ const LayoutHeader = styled.header<{
     display: flex;
     align-items: center;
     justify-content: space-around;
+    position:fixed;
   `;
 
 // function layout({ children, isLoading, subShow }) {
