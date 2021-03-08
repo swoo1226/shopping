@@ -3,9 +3,11 @@ import {connect} from 'react-redux'
 import {productsSlice} from '../../reducers/products'
 import {RootState} from '../../reducers/index'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import './style.scss'
 
 const mapStateToProps = (state: RootState) => ({
-    list: state.productsReducer.list
+  productItems: state.productsReducer.productItems,
+  itemsRow: state.productsReducer.itemsRow
 })
 const dispatchProps = {
     ...productsSlice.actions
@@ -17,17 +19,17 @@ const fetchData = () => {
     console.log('fetch data')
 }
 
-
-export function Products({ list, addProductsToList }: ProductsType) {
+export function Products({ productItems, addProductsToList, itemsRow }: ProductsType) {
     useEffect(() => {
         console.log('list initiation')
+        console.log(itemsRow)
     }, []);
-    if(list){
-
+    if(productItems){
         return (
-          <div>
-            <InfiniteScroll
-              dataLength={list!.length} //This is important field to render the next data
+          <div className="productsContainer">
+            {/* <InfiniteScroll
+              style={{width: '100%', height: '100%'}}
+              dataLength={productItems!.length} 
               next={fetchData}
               hasMore={true}
               loader={<h4>Loading...</h4>}
@@ -35,20 +37,20 @@ export function Products({ list, addProductsToList }: ProductsType) {
                 <p style={{ textAlign: "center" }}>
                   <b>Yay! You have seen it all</b>
                 </p>
-              }
-              // below props only if you need pull down functionality
-              // refreshFunction={this.refresh}
-              // pullDownToRefresh
-              // pullDownToRefreshThreshold={50}
-              // pullDownToRefreshContent={
-              //   <h3 style={{ textAlign: "center" }}>&#8595; Pull down to refresh</h3>
-              // }
-              // releaseToRefreshContent={
-              //   <h3 style={{ textAlign: "center" }}>&#8593; Release to refresh</h3>
-              // }
-            >
-              {list}
-            </InfiniteScroll>
+              } */}
+              <div className='productsRow'>
+              {productItems.map(productItem => 
+              <div key={productItem.id} className="productItem">
+                <div className='title'>
+                  {productItem.title}
+                </div>
+                <div className='coverImageDiv'>
+                  <img src={productItem.coverImage}></img>
+                </div>
+              </div>)}
+              </div>
+            {/* </InfiniteScroll> */}
+            
           </div>
         );
     } else {
