@@ -22,7 +22,7 @@ export function LayoutHeaderContainer({children}:any): JSX.Element {
             <LayoutHeader
             height="70px"
             fontSize= "20px"
-            backgroundColor="skyblue"
+            backgroundColor="pink"
             className="LayoutHeader"
           >
               {children}

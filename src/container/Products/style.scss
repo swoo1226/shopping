@@ -15,15 +15,31 @@
     .productItem {
       width: 250px;
       height: 250px;
-      border: 1px solid peachpuff;
+      border-radius: 10px;
+      border: 3px solid peachpuff;
       margin: 20px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.1s;
+      &:hover {
+        box-shadow: 0 0 10px pink;
+      }
       .title {
         font-size: 14px;
       }
+      .price {
+        text-align: center;
+      }
       .coverImageDiv {
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: cetner;
         img {
-          max-width: 100%;
           max-height: 100%;
+          max-width: 80%;
         }
       }
     }

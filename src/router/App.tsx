@@ -7,7 +7,7 @@ function App() {
   return (
     <Router>
       <Layout
-        containerStyle={{ fontSize: "14px", backgroundColor: "#fac609" }}
+        containerStyle={{ fontSize: "14px", backgroundColor: "#ffffff" }}
       >
         {/* <Route exact path="/home" component={}></Route> */}
         <Route exact path="/products" component={Products}></Route>

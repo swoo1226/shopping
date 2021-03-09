@@ -25,7 +25,7 @@ type productsSliceType = {
 }
 
 export const productsInitialState: productsSliceType = {
-    productItems: productItems,
+    productItems: productItems.sort((a,b) => b.score - a.score),
     coupons: coupons,
     itemsRow: 1
 }
