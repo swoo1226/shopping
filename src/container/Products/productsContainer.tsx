@@ -9,7 +9,8 @@ import './style.scss'
 const mapStateToProps = (state: RootState) => ({
   productItems: state.productsReducer.productItems,
   itemsRow: state.productsReducer.itemsRow,
-  cart: state.cartReducer.cart
+  cart: state.cartReducer.cart,
+  hasMore: state.productsReducer.hasMore
 })
 const dispatchProps = {
     ...productsSlice.actions,
@@ -18,29 +19,23 @@ const dispatchProps = {
 
 type ProductsType = ReturnType<typeof mapStateToProps> & typeof dispatchProps
 
-const fetchData = () => {
-    console.log('fetch data')
-}
 
-export function Products({ productItems, addProductsToList, itemsRow, cart, addProductToCart, removeProductFromCart }: ProductsType) {
+export function Products({ productItems, addProductsToList, itemsRow, cart, addProductToCart, removeProductFromCart, hasMore }: ProductsType) {
     useEffect(() => {
-        console.log('list initiation')
-        console.log(itemsRow)
+      addProductsToList()
     }, []);
-    if(productItems){
         return (
-          <div className="productsContainer">
-            {/* <InfiniteScroll
+            <InfiniteScroll
               style={{width: '100%', height: '100%'}}
-              dataLength={productItems!.length} 
-              next={fetchData}
-              hasMore={true}
+              dataLength={productItems.length} 
+              next={addProductsToList}
+              hasMore={hasMore}
               loader={<h4>Loading...</h4>}
               endMessage={
                 <p style={{ textAlign: "center" }}>
-                  <b>Yay! You have seen it all</b>
+                  <b>모든 상품을 불러왔습니다.</b>
                 </p>
-              } */}
+              }>
               <div className='productsRow'>
               {productItems.map(productItem => 
               <div key={productItem.id} className="productItem">
@@ -54,13 +49,8 @@ export function Products({ productItems, addProductsToList, itemsRow, cart, addP
                 <div className='addOrRemove'>{cart.map(product => product.id).includes(productItem.id) ? <button onClick={()=>{removeProductFromCart(productItem.id)}}>빼기</button> : <button onClick={() => addProductToCart(productItem)}>담기</button>}</div>
               </div>)}
               </div>
-            {/* </InfiniteScroll> */}
-            
-          </div>
+            </InfiniteScroll>
         );
-    } else {
-        return <div>No Products Now</div>
-    }
 }
 
 export default connect(mapStateToProps, dispatchProps)(Products)

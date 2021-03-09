@@ -1,7 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {call, put, takeLatest} from 'redux-saga/effects'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
+import { RootState } from './index'
 import {productItems, coupons} from './productItems'
 
+const sortedProductItems = productItems.sort((a,b) => b.score - a.score)
 export type productType = {
     id: string
     title: string
@@ -22,24 +24,26 @@ type productsSliceType = {
     productItems: productType[]
     coupons: couponType[]
     itemsRow: number
+    hasMore: boolean
 }
 
 export const productsInitialState: productsSliceType = {
-    productItems: productItems.sort((a,b) => b.score - a.score),
+    productItems: [],
     coupons: coupons,
-    itemsRow: 1
+    itemsRow: 0,
+    hasMore: true
 }
 
 export const productsSlice = createSlice({
     name: 'products',
     initialState: productsInitialState,
     reducers: {
-        addProductsToList(state, action){
-            if(!state.productItems){
-                state.productItems = []
-            }
-        } ,
-        increaseItemsRow(state, action){
+        addProductsToList(){
+        },
+        addProductToListSuccess(state, action: PayloadAction<productType[]>){
+           state.productItems =  state.productItems.concat(action.payload)
+        },
+        increaseItemsRow(state){
             console.log(`curr itemsRow is ${state.itemsRow}`)
             state.itemsRow += 1
         }
@@ -48,7 +52,13 @@ export const productsSlice = createSlice({
 
 function* addProductsToListWorker(){
     try{
-        console.log('addproductstolistworker saga')
+        const {itemsRow} = yield select((state:RootState) => state.productsReducer)
+        console.log(itemsRow)
+        console.log(sortedProductItems)
+        const nextItems = sortedProductItems.slice(itemsRow, (itemsRow+1) * 5 )
+        console.log(nextItems)
+        yield put({type: 'products/addProductToListSuccess', payload: nextItems})
+        yield put({type: 'products/increaseItemsRow'})
     }
     catch(e) {
         console.error(e)
