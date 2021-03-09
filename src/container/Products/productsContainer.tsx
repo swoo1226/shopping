@@ -1,16 +1,19 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import {productsSlice} from '../../reducers/products'
+import {cartSlice} from '../../reducers/cart'
 import {RootState} from '../../reducers/index'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import './style.scss'
 
 const mapStateToProps = (state: RootState) => ({
   productItems: state.productsReducer.productItems,
-  itemsRow: state.productsReducer.itemsRow
+  itemsRow: state.productsReducer.itemsRow,
+  cart: state.cartReducer.cart
 })
 const dispatchProps = {
-    ...productsSlice.actions
+    ...productsSlice.actions,
+    ...cartSlice.actions
 }
 
 type ProductsType = ReturnType<typeof mapStateToProps> & typeof dispatchProps
@@ -19,7 +22,7 @@ const fetchData = () => {
     console.log('fetch data')
 }
 
-export function Products({ productItems, addProductsToList, itemsRow }: ProductsType) {
+export function Products({ productItems, addProductsToList, itemsRow, cart, addProductToCart, removeProductFromCart }: ProductsType) {
     useEffect(() => {
         console.log('list initiation')
         console.log(itemsRow)
@@ -45,8 +48,10 @@ export function Products({ productItems, addProductsToList, itemsRow }: Products
                   {productItem.title}
                 </div>
                 <div className='coverImageDiv'>
-                  <img src={productItem.coverImage}></img>
+                  <img src={productItem.coverImage} alt={productItem.title}></img>
                 </div>
+                <div className='price'>{productItem.price.toLocaleString()}원</div>
+                <div className='addOrRemove'>{cart.map(product => product.id).includes(productItem.id) ? <button onClick={()=>{removeProductFromCart(productItem.id)}}>빼기</button> : <button onClick={() => addProductToCart(productItem)}>담기</button>}</div>
               </div>)}
               </div>
             {/* </InfiniteScroll> */}
