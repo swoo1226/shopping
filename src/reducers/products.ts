@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import { RootState } from './index'
-import {productItems, coupons} from './productItems'
+import {productItems} from './productItems'
 
 const sortedProductItems = productItems.sort((a,b) => b.score - a.score)
 export type productType = {
@@ -13,23 +13,14 @@ export type productType = {
     availableCoupon?: boolean
 }
 
-type couponType = {
-    type: string
-    title: string
-    discountRate?: number
-    discountAmount?: number
-}
-
 type productsSliceType = {
     productItems: productType[]
-    coupons: couponType[]
     itemsRow: number
     hasMore: boolean
 }
 
 export const productsInitialState: productsSliceType = {
     productItems: [],
-    coupons: coupons,
     itemsRow: 0,
     hasMore: true
 }
