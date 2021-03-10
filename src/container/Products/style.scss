@@ -5,14 +5,14 @@
     width: 100%;
     height: 100%;
   }
-  .loader{
+  .loader {
     width: 100%;
     font-size: 5rem;
     background-color: peachpuff;
     text-align: center;
   }
-  .endMessage{
-    width:100%;
+  .endMessage {
+    width: 100%;
     text-align: center;
     font-size: 1rem;
   }
@@ -22,8 +22,9 @@
     flex-wrap: wrap;
     .productItem {
       width: 30rem;
-      min-width: 30rem;
       height: 30rem;
+      min-width: 20rem;
+      min-height: 20rem;
       border-radius: 10px;
       border: 3px solid peachpuff;
       margin: 3rem;
@@ -54,10 +55,10 @@
           max-width: 80%;
         }
       }
-      .addOrRemove{
+      .addOrRemove {
         width: 100%;
         text-align: center;
-        button{
+        button {
           all: unset;
           border-radius: 5px;
           width: 2rem;
@@ -65,13 +66,13 @@
           font-size: 1rem;
           margin: 1rem;
           padding: 0.5rem;
-          cursor:pointer;
+          cursor: pointer;
         }
-        .add{
+        .add {
           background-color: peachpuff;
         }
-        .remove{
-          background-color:powderblue
+        .remove {
+          background-color: powderblue;
         }
       }
     }
