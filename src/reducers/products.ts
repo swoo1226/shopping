@@ -41,11 +41,15 @@ export const productsSlice = createSlice({
         addProductsToList(){
         },
         addProductToListSuccess(state, action: PayloadAction<productType[]>){
+            console.log(action.payload)
            state.productItems =  state.productItems.concat(action.payload)
         },
         increaseItemsRow(state){
             console.log(`curr itemsRow is ${state.itemsRow}`)
             state.itemsRow += 1
+        },
+        setHasMore(state, action: PayloadAction<boolean>){
+            state.hasMore = action.payload
         }
     }
 })
@@ -53,12 +57,12 @@ export const productsSlice = createSlice({
 function* addProductsToListWorker(){
     try{
         const {itemsRow} = yield select((state:RootState) => state.productsReducer)
-        console.log(itemsRow)
-        console.log(sortedProductItems)
-        const nextItems = sortedProductItems.slice(itemsRow, (itemsRow+1) * 5 )
-        console.log(nextItems)
+        const nextItems = sortedProductItems.slice(itemsRow * 5, (itemsRow+1) * 5 )
         yield put({type: 'products/addProductToListSuccess', payload: nextItems})
         yield put({type: 'products/increaseItemsRow'})
+        if((itemsRow+1)*5 >= sortedProductItems.length){
+            yield put({type: 'products/setHasMore', payload: false})
+        }
     }
     catch(e) {
         console.error(e)

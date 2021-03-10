@@ -25,14 +25,16 @@ export function Products({ productItems, addProductsToList, itemsRow, cart, addP
       addProductsToList()
     }, []);
         return (
+          <div className='productsContainer'>
+
             <InfiniteScroll
               style={{width: '100%', height: '100%'}}
               dataLength={productItems.length} 
-              next={addProductsToList}
+              next={() => setTimeout(() => {addProductsToList()},300)}
               hasMore={hasMore}
-              loader={<h4>Loading...</h4>}
+              loader={<div className='loader'>Loading...</div>}
               endMessage={
-                <p style={{ textAlign: "center" }}>
+                <p className='endMessage'>
                   <b>모든 상품을 불러왔습니다.</b>
                 </p>
               }>
@@ -46,10 +48,11 @@ export function Products({ productItems, addProductsToList, itemsRow, cart, addP
                   <img src={productItem.coverImage} alt={productItem.title}></img>
                 </div>
                 <div className='price'>{productItem.price.toLocaleString()}원</div>
-                <div className='addOrRemove'>{cart.map(product => product.id).includes(productItem.id) ? <button onClick={()=>{removeProductFromCart(productItem.id)}}>빼기</button> : <button onClick={() => addProductToCart(productItem)}>담기</button>}</div>
+                <div className='addOrRemove'>{cart.map(product => product.id).includes(productItem.id) ? <button className='remove'onClick={()=>{removeProductFromCart(productItem.id)}}>빼기</button> : <button className='add' onClick={() => addProductToCart(productItem)}>담기</button>}</div>
               </div>)}
               </div>
             </InfiniteScroll>
+          </div>
         );
 }
 

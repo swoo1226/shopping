@@ -33,8 +33,8 @@ const LayoutContainer = styled.div<{
           >
             <LayoutHeaderContainer>
               <NavLink to="/home" activeClassName="selected">Home</NavLink>
-              <NavLink to="/cart" activeClassName="selected">Cart</NavLink>
               <NavLink to="/products" activeClassName="selected">Products</NavLink>
+              <NavLink to="/cart" activeClassName="selected">Cart</NavLink>
             </LayoutHeaderContainer>
             {/* <IsAuth />
             <DashBoardNavigation /> */}

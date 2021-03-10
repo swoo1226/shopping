@@ -1,24 +1,33 @@
 .productsContainer {
-  display: flex;
+  // display: flex;
   width: 100%;
-  height: 100%;
-  overflow-y: scroll;
   .infinite-scroll-component__outerdiv {
     width: 100%;
     height: 100%;
+  }
+  .loader{
+    width: 100%;
+    font-size: 5rem;
+    background-color: peachpuff;
+    text-align: center;
+  }
+  .endMessage{
+    width:100%;
+    text-align: center;
+    font-size: 1rem;
   }
   .productsRow {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    height: 100%;
     .productItem {
-      width: 250px;
-      height: 250px;
+      width: 30rem;
+      min-width: 30rem;
+      height: 30rem;
       border-radius: 10px;
       border: 3px solid peachpuff;
-      margin: 20px;
-      padding: 10px;
+      margin: 3rem;
+      padding: 1rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -27,19 +36,42 @@
         box-shadow: 0 0 10px pink;
       }
       .title {
-        font-size: 14px;
+        font-size: 1.5rem;
+        height: 8rem;
+        text-align: center;
       }
       .price {
         text-align: center;
+        font-size: 1rem;
       }
       .coverImageDiv {
-        height: 150px;
+        height: 25rem;
         display: flex;
         justify-content: center;
-        align-items: cetner;
+        align-items: center;
         img {
           max-height: 100%;
           max-width: 80%;
+        }
+      }
+      .addOrRemove{
+        width: 100%;
+        text-align: center;
+        button{
+          all: unset;
+          border-radius: 5px;
+          width: 2rem;
+          height: 2rem;
+          font-size: 1rem;
+          margin: 1rem;
+          padding: 0.5rem;
+          cursor:pointer;
+        }
+        .add{
+          background-color: peachpuff;
+        }
+        .remove{
+          background-color:powderblue
         }
       }
     }
