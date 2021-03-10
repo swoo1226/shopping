@@ -5,7 +5,7 @@ import {cartSlice} from '../../reducers/cart'
 import './style.scss'
 const mapStateToProps = (state: RootState) => ({
     cart: state.cartReducer.cart,
-    productItems: state.productsReducer.productItems
+    coupons: state.cartReducer.coupons
   })
   const dispatchProps = {
     ...cartSlice.actions
@@ -13,13 +13,15 @@ const mapStateToProps = (state: RootState) => ({
 
 type CartType = ReturnType<typeof mapStateToProps> & typeof dispatchProps
 
-function Cart({cart}: CartType) {
+function Cart({cart, coupons, toggleCouponUse}: CartType) {
+    console.log(coupons)
     const [itemNumbers, setItemNumbers] = useState(cart.map(() => 1))
     const [checkedItems, setCheckedItems] = useState<{[key:string]: boolean}>({})
+    const [isRateCoupon, setIsRateCoupon] = useState<boolean>(false)
+    const [isAmountCoupon, setIsAmountCoupon] = useState<boolean>(false)
     useEffect(()=>{
         let checkedItemsObj : {[key:string]: boolean}= {}
         cart.map(product => checkedItemsObj[product.id] = true)
-        console.log(checkedItemsObj)
         setCheckedItems(checkedItemsObj)
     },[])
     if(itemNumbers.length > 0 && Object.keys(checkedItems).length > 0){
@@ -33,13 +35,14 @@ function Cart({cart}: CartType) {
                        setCheckedItems(newCheckedItems)
                        }}></input> 
                    {product.title} : {product.price.toLocaleString()}원
-                   <input type='number' min={0} value={itemNumbers[productIndex]} onChange={(e)=>{
+                   <input type='number' min={1} value={itemNumbers[productIndex]} onChange={(e)=>{
                        let newItemNumbers = [...itemNumbers]
                         newItemNumbers[productIndex] = parseInt(e.target.value)
                        setItemNumbers(newItemNumbers)
                    }}></input>
                    {checkedItems![product.id] && itemNumbers[productIndex] ? <div>{(itemNumbers[productIndex] * product.price).toLocaleString()}</div> : null}
                 </div>)}
+                {coupons.map(coupon => <div className={`coupon ${coupon.type}`} onClick={()=>{toggleCouponUse(coupon.type)}}>{coupon.title}</div>)}
                 <div>TOTAL : {(cart.reduce((prev,curr, index):any => {
                     if(checkedItems[curr.id]){
                         return prev + itemNumbers[index] * curr.price

@@ -4,4 +4,16 @@
   padding: 3rem;
   display: flex;
   flex-direction: column;
+  .coupon {
+    width: 15rem;
+    height: 3rem;
+    margin: 1rem;
+    cursor: pointer;
+  }
+  .rate {
+    border: 1px solid rgb(199, 82, 28);
+  }
+  .amount {
+    border: 1px solid goldenrod;
+  }
 }
