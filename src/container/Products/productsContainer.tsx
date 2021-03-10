@@ -26,11 +26,10 @@ export function Products({ productItems, addProductsToList, itemsRow, cart, addP
     }, []);
         return (
           <div className='productsContainer'>
-
+            <main>
             <InfiniteScroll
-              style={{width: '100%', height: '100%'}}
               dataLength={productItems.length} 
-              next={() => setTimeout(() => {addProductsToList()},300)}
+              next={() => setTimeout(() => {addProductsToList()},1000)}
               hasMore={hasMore}
               loader={<div className='loader'>Loading...</div>}
               endMessage={
@@ -52,6 +51,13 @@ export function Products({ productItems, addProductsToList, itemsRow, cart, addP
               </div>)}
               </div>
             </InfiniteScroll>
+            </main>
+            <aside>
+              <div className='cart'>
+                {cart.map((item, index) => <div>{index+1}. {item.title}</div>)}
+                {cart.length === 3 ? <div className='full'>카트가 가득 찼습니다.</div> : null}
+              </div>
+            </aside>
           </div>
         );
 }

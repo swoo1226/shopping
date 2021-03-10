@@ -28,19 +28,23 @@ function Cart({cart, coupons, toggleCouponUse}: CartType) {
         return(
             <div id="cartContainer">
                {cart.map((product, productIndex) => 
-               <div>
+               <div className='cartItem'>
                    <input type='checkbox' name='cartProduct' checked={checkedItems[product.id]} onChange={(e)=>{
                        let newCheckedItems = {...checkedItems}
                        newCheckedItems[product.id] = e.target.checked
                        setCheckedItems(newCheckedItems)
-                       }}></input> 
-                   {product.title} : {product.price.toLocaleString()}원
+                       }}/>
+                       <div>
+                        {product.title}
+                       </div>
                    <input type='number' min={1} value={itemNumbers[productIndex]} onChange={(e)=>{
                        let newItemNumbers = [...itemNumbers]
                         newItemNumbers[productIndex] = parseInt(e.target.value)
                        setItemNumbers(newItemNumbers)
                    }}></input>
+                   <div>
                    {checkedItems![product.id] && itemNumbers[productIndex] ? <div>{(itemNumbers[productIndex] * product.price).toLocaleString()}</div> : null}
+                   </div>
                 </div>)}
                 {coupons.map(coupon => <div className={`coupon ${coupon.type}`} onClick={()=>{toggleCouponUse(coupon.type)}}>{coupon.title}</div>)}
                 <div>TOTAL : {(cart.reduce((prev,curr, index):any => {
@@ -54,7 +58,7 @@ function Cart({cart, coupons, toggleCouponUse}: CartType) {
             </div>
         )
     } else {
-        return <div>장바구니가 비었습니다.</div>
+        return <div id="cartContainer">장바구니가 비었습니다.</div>
     }
 }
 
