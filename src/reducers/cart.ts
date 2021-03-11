@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {call, put, takeEvery, select} from 'redux-saga/effects'
+import {put, takeEvery, select} from 'redux-saga/effects'
 import {productType} from './products'
 import {coupons} from'./productItems'
 import {RootState} from './index'
@@ -34,10 +34,20 @@ export const cartSlice = createSlice({
             }
         },
         removeProductFromCart(state, action: PayloadAction<string>){
+            delete state.checkedItems[action.payload]
             state.cart = state.cart.filter(product => product.id !== action.payload)
         },
-        toggleCouponUse(state, action: PayloadAction<string>){
-           state.coupons = state.coupons.map(coupon => coupon.type === action.payload ? {...coupon, using: !coupon.using} : coupon) 
+        toggleCouponUse(state, action: PayloadAction<number>){
+            const index = action.payload;
+            const checkUsingCoupon = state.coupons.filter(coupon => coupon.using)
+            let newCoupons = [...state.coupons]
+            if(checkUsingCoupon.length && checkUsingCoupon[0].title === state.coupons[index].title){
+                newCoupons[index].using = false
+                state.coupons = newCoupons
+            } else if(!checkUsingCoupon.length){
+                newCoupons[index].using = true
+                state.coupons = newCoupons
+            }
         },
         setItemNumbers(state, action: PayloadAction<number[]>){
             console.log(action.payload)
