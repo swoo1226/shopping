@@ -14,7 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid darksalmon;
+    border: 3px solid darksalmon;
     margin-bottom: 1rem;
     padding: 1rem;
     input[type="checkbox"] {
@@ -38,16 +38,17 @@
     }
   }
   .coupon {
-    width: 15rem;
-    height: 3rem;
-    margin: 1rem;
+    width: 150px;
+    height: 50px;
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     cursor: pointer;
     border: 1px solid black;
   }
-  //   .rate {
-  //     border: 1px solid rgb(199, 82, 28);
-  //   }
-  //   .amount {
-  //     border: 1px solid goldenrod;
-  //   }
+  .using{
+    opacity: 0.2;
+    border: 1px dashed black;
+  }
 }

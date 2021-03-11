@@ -61,7 +61,7 @@ function Cart({cart, coupons, toggleCouponUse, itemNumbers, setItemNumbers, chec
                    </div>
                 </div>)}
                 <div>*쿠폰은 한 번에 하나만 적용 가능합니다*</div>
-                {coupons.map((coupon, couponIndex) => <div key={coupon.title} className={`coupon ${coupon.type}`} onClick={()=>{toggleCouponUse(couponIndex)}}>{coupon.title}{coupon.using ? <div>적용중</div> : null}</div>)}
+                {coupons.map((coupon, couponIndex) => <div key={coupon.title} className={`coupon ${coupon.using ? 'using' : undefined}`} onClick={()=>{toggleCouponUse(couponIndex)}}>{coupon.title}{coupon.using ? <div>적용중</div> : null}</div>)}
                 <div>TOTAL : {total.toLocaleString()}원</div>
             </div>
         )

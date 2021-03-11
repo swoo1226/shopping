@@ -18,13 +18,37 @@
       padding: 20px;
       min-width: 300px;
       height: 400px;
-      background-color: deepskyblue;
+      opacity: 0.5;
       border-radius: 10px;
-      div {
+      background-color: peachpuff;
+      .cartItem {
+        width: 100%;
+        height: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 15px;
+        div{
+          width: 80%;
+        }
+        button{
+          all: unset;
+          border-radius: 10px;
+          width: 2rem;
+          height: 2rem;
+          font-size: 1rem;
+          margin: 1rem;
+          cursor: pointer;
+          width: 20%;
+          text-align: center;
+          background-color: powderblue;
+        }
       }
       .full {
         color: red;
+      }
+      &:hover{
+        opacity: 1;
       }
     }
   }
@@ -37,7 +61,6 @@
     margin-left: -50px;
     font-size: 3rem;
     margin-bottom: -40px;
-    background-color: peachpuff;
     text-align: center;
     position: absolute;
   }

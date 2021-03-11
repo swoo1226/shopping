@@ -10,7 +10,8 @@ const mapStateToProps = (state: RootState) => ({
   productItems: state.productsReducer.productItems,
   itemsRow: state.productsReducer.itemsRow,
   cart: state.cartReducer.cart,
-  hasMore: state.productsReducer.hasMore
+  hasMore: state.productsReducer.hasMore,
+  checkedItems: state.cartReducer.checkedItems
 })
 const dispatchProps = {
     ...productsSlice.actions,
@@ -20,7 +21,7 @@ const dispatchProps = {
 type ProductsType = ReturnType<typeof mapStateToProps> & typeof dispatchProps
 
 
-export function Products({ productItems, addProductsToList, itemsRow, cart, addProductToCart, removeProductFromCart, hasMore }: ProductsType) {
+export function Products({ productItems, addProductsToList, checkedItems, cart, addProductToCart, removeProductFromCart, hasMore }: ProductsType) {
     useEffect(() => {
       addProductsToList()
     }, []);
@@ -48,17 +49,20 @@ export function Products({ productItems, addProductsToList, itemsRow, cart, addP
                 </div>
                 <div className='price'>{productItem.price.toLocaleString()}원</div>
                 <div className='addOrRemove'>
-                  {cart.map(product => product.id).includes(productItem.id) ? 
-                  <button className='remove'onClick={()=>{removeProductFromCart(productItem.id)}}>빼기</button> 
-                  : <button className='add' onClick={() => addProductToCart(productItem)}>담기</button>}</div>
+                  {checkedItems[productItem.id] ? 
+                    <button className='remove'onClick={()=>{removeProductFromCart(productItem.id)}}>빼기</button> 
+                      : 
+                    <button className='add' onClick={() => addProductToCart(productItem)}>담기</button>}
+                </div>
               </div>)}
               </div>
             </InfiniteScroll>
             </main>
             <aside>
               <div className='cart'>
-                {cart.map((item, index) => <div key={item.id}>{index+1}. {item.title}</div>)}
-                {cart.length === 3 ? <div className='full'>카트가 가득 찼습니다.</div> : null}
+                <h2>장바구니</h2>
+                {cart.map((item, index) => <div key={item.id} className='cartItem'><div>{index+1}. {item.title}</div><button onClick={()=>{removeProductFromCart(item.id)}}>빼기</button></div>)}
+                {cart.length === 3 ? <div className='full'>장바구니가 가득 찼습니다.</div> : null}
               </div>
             </aside>
           </div>
