@@ -10,9 +10,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import rootReducer from './reducers'
 import {productsSliceSaga} from './reducers/products'
+import {cartSliceSaga} from './reducers/cart'
 function* entrySaga() {
   yield all([
-    productsSliceSaga()
+    productsSliceSaga(),
+    cartSliceSaga()
   ]);
 }
 const sagaMiddleware = createSagaMiddleware();

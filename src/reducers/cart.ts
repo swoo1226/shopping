@@ -1,11 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {call, put, takeLatest} from 'redux-saga/effects'
+import {call, put, takeEvery, select} from 'redux-saga/effects'
 import {productType} from './products'
 import {coupons} from'./productItems'
-type productsSliceType = {
+import {RootState} from './index'
+type cartSliceType = {
     cart: productType[]
-    total: number
     coupons: couponType[]
+    itemNumbers: number[]
+    checkedItems: {[key:string]: boolean}
 }
 type couponType = {
     type: string
@@ -15,10 +17,11 @@ type couponType = {
     using: boolean
 }
 
-export const cartInitialState: productsSliceType = {
+export const cartInitialState: cartSliceType = {
     cart: [],
-    total: 0,
-    coupons: coupons.map((coupon) => {return {...coupon, using: false}})
+    coupons: coupons.map((coupon) => {return {...coupon, using: false}}),
+    itemNumbers: [],
+    checkedItems: {}
 }
 
 export const cartSlice = createSlice({
@@ -35,22 +38,43 @@ export const cartSlice = createSlice({
         },
         toggleCouponUse(state, action: PayloadAction<string>){
            state.coupons = state.coupons.map(coupon => coupon.type === action.payload ? {...coupon, using: !coupon.using} : coupon) 
+        },
+        setItemNumbers(state, action: PayloadAction<number[]>){
+            console.log(action.payload)
+            state.itemNumbers = action.payload
+        },
+        setCheckedItems(state, action: PayloadAction<{id:string, checked: boolean}>){
+            state.checkedItems[action.payload.id] = action.payload.checked
         }
+
     }
 })
 
-// function* addProductsToListWorker(){
-//     try{
-//         console.log('addproductstolistworker saga')
-//     }
-//     catch(e) {
-//         console.error(e)
-//     }
-// }
+function* addProductsToListWorker({type, payload}: {type: string, payload: productType}){
+    try{
+            const { itemNumbers } = yield select((state:RootState) => state.cartReducer)
+            const newItemNumbers = [...itemNumbers, 1]
+            yield put({
+                type: 'cart/setItemNumbers',
+                payload: newItemNumbers
+            })
+            yield put({
+                type: 'cart/setCheckedItems',
+                payload: {
+                    id: payload.id,
+                    checked: true
+                }
+            })
+        
+    }
+    catch(e) {
+        console.error(e)
+    }
+}
 
-export const { addProductToCart } = cartSlice.actions;
+export const { addProductToCart, removeProductFromCart,  toggleCouponUse, setItemNumbers, setCheckedItems} = cartSlice.actions;
 
-// export function* productsSliceSaga() {
-//     yield takeLatest(addProductsToList, addProductsToListWorker)
-// }
+export function* cartSliceSaga() {
+    yield takeEvery(addProductToCart, addProductsToListWorker)
+}
 export default cartSlice.reducer

@@ -47,14 +47,17 @@ export function Products({ productItems, addProductsToList, itemsRow, cart, addP
                   <img src={productItem.coverImage} alt={productItem.title}></img>
                 </div>
                 <div className='price'>{productItem.price.toLocaleString()}원</div>
-                <div className='addOrRemove'>{cart.map(product => product.id).includes(productItem.id) ? <button className='remove'onClick={()=>{removeProductFromCart(productItem.id)}}>빼기</button> : <button className='add' onClick={() => addProductToCart(productItem)}>담기</button>}</div>
+                <div className='addOrRemove'>
+                  {cart.map(product => product.id).includes(productItem.id) ? 
+                  <button className='remove'onClick={()=>{removeProductFromCart(productItem.id)}}>빼기</button> 
+                  : <button className='add' onClick={() => addProductToCart(productItem)}>담기</button>}</div>
               </div>)}
               </div>
             </InfiniteScroll>
             </main>
             <aside>
               <div className='cart'>
-                {cart.map((item, index) => <div>{index+1}. {item.title}</div>)}
+                {cart.map((item, index) => <div key={item.id}>{index+1}. {item.title}</div>)}
                 {cart.length === 3 ? <div className='full'>카트가 가득 찼습니다.</div> : null}
               </div>
             </aside>

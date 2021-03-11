@@ -20,7 +20,7 @@ const LayoutHeader = styled.header<{
 export function LayoutHeaderContainer({children}:any): JSX.Element {
         return (
             <LayoutHeader
-            height="150px"
+            height="100px"
             fontSize= "20px"
             backgroundColor="peach"
             className="LayoutHeader"

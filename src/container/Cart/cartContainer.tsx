@@ -4,8 +4,7 @@ import {RootState} from '../../reducers/index'
 import {cartSlice} from '../../reducers/cart'
 import './style.scss'
 const mapStateToProps = (state: RootState) => ({
-    cart: state.cartReducer.cart,
-    coupons: state.cartReducer.coupons
+    ...state.cartReducer
   })
   const dispatchProps = {
     ...cartSlice.actions
@@ -13,26 +12,19 @@ const mapStateToProps = (state: RootState) => ({
 
 type CartType = ReturnType<typeof mapStateToProps> & typeof dispatchProps
 
-function Cart({cart, coupons, toggleCouponUse}: CartType) {
-    console.log(coupons)
-    const [itemNumbers, setItemNumbers] = useState(cart.map(() => 1))
-    const [checkedItems, setCheckedItems] = useState<{[key:string]: boolean}>({})
-    const [isRateCoupon, setIsRateCoupon] = useState<boolean>(false)
-    const [isAmountCoupon, setIsAmountCoupon] = useState<boolean>(false)
+function Cart({cart, coupons, toggleCouponUse, itemNumbers, setItemNumbers, checkedItems, setCheckedItems}: CartType) {
     useEffect(()=>{
-        let checkedItemsObj : {[key:string]: boolean}= {}
-        cart.map(product => checkedItemsObj[product.id] = true)
-        setCheckedItems(checkedItemsObj)
+        // let checkedItemsObj : {[key:string]: boolean}= {}
+        // cart.map(product => checkedItemsObj[product.id] = true)
+        // setCheckedItems(checkedItemsObj)
     },[])
-    if(itemNumbers.length > 0 && Object.keys(checkedItems).length > 0){
+    if(cart.length > 0){
         return(
             <div id="cartContainer">
                {cart.map((product, productIndex) => 
                <div className='cartItem'>
                    <input type='checkbox' name='cartProduct' checked={checkedItems[product.id]} onChange={(e)=>{
-                       let newCheckedItems = {...checkedItems}
-                       newCheckedItems[product.id] = e.target.checked
-                       setCheckedItems(newCheckedItems)
+                        setCheckedItems({id: product.id, checked: e.target.checked})
                        }}/>
                        <div>
                         {product.title}
@@ -46,15 +38,8 @@ function Cart({cart, coupons, toggleCouponUse}: CartType) {
                    {checkedItems![product.id] && itemNumbers[productIndex] ? <div>{(itemNumbers[productIndex] * product.price).toLocaleString()}</div> : null}
                    </div>
                 </div>)}
-                {coupons.map(coupon => <div className={`coupon ${coupon.type}`} onClick={()=>{toggleCouponUse(coupon.type)}}>{coupon.title}</div>)}
-                <div>TOTAL : {(cart.reduce((prev,curr, index):any => {
-                    if(checkedItems[curr.id]){
-                        return prev + itemNumbers[index] * curr.price
-                    } else {
-                        return prev
-                    }
-                    },0).toLocaleString())}
-                    원</div>
+                {coupons.map(coupon => <div key={coupon.title} className={`coupon ${coupon.type}`} onClick={()=>{toggleCouponUse(coupon.type)}}>{coupon.title}{coupon.using ? <div>적용중</div> : null}</div>)}
+                <div>TOTAL : 원</div>
             </div>
         )
     } else {
